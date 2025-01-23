@@ -35,8 +35,8 @@ This project is a cross-chain rebase token where users can depost ETH in exchang
 ## Quickstart
 
 ```
-git clone https://github.com/Cyfrin/foundry-cross-chain-rebase-token-cu
-cd foundry-cross-chain-rebase-token-cu
+git clone https://github.com/Totiruzi/cross-chain-rebase-token
+cd cross-chain-rebase-token-cu
 forge build
 ```
 
