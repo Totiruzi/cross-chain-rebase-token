@@ -95,6 +95,11 @@ contract RebaseToken is ERC20, Ownable, AccessControl {
         _mint(_to, _amount);
     }
 
+    /**
+     * @notice Burn the user tokens when they withdraw into the vault
+     * @param _from The user to mint the token to
+     * @param _amount The Amount of tokens to mint
+     */
     function burn(address _from, uint256 _amount) external onlyRole(MINT_AND_BURN_ROLE) {
         // to mitigate against dust (User wanting to withdraw their entire staked amount)
         if (_amount == type(uint256).max) {
