@@ -25,7 +25,7 @@ pragma solidity 0.8.24;
 
 import {IRebaseToken} from "./interfaces/IRebaseToken.sol";
 
-contract Volt {
+contract Vault {
     // We need to pass the token address to the constructor
     // Create a deposit function that mints tokens to the user equivalent to the amount of ETH they deposited
     // Create a redeem function that burns the user tokens and send the user the ETH equivalent
@@ -34,7 +34,7 @@ contract Volt {
     /**
      * ERRORS
      */
-    error Volt__RedeemFailed();
+    error Vault__RedeemFailed();
 
     /**
      * STATE VARIABLES
@@ -74,7 +74,7 @@ contract Volt {
         (bool success,) = payable(msg.sender).call{value: _amount}("");
 
         if (!success) {
-        revert Volt__RedeemFailed();
+        revert Vault__RedeemFailed();
         }
 
         emit Redeem(msg.sender, _amount);
