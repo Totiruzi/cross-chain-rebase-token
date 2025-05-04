@@ -37,13 +37,32 @@ contract RebaseTokenTest is Test {
         vm.warp(block.timestamp + 1 hours);
         uint256 middleBalance = rebaseToken.balanceOf(USER);
         assertGt(middleBalance, startBalance);
-        // 4. warp the time again by the same amount and check our rebase balance again
+        // 4. warp the time again by the same amount of time and check our rebase balance again
         vm.warp(block.timestamp + 1 hours);
         uint256 endBalance = rebaseToken.balanceOf(USER);
         assertGt(endBalance, middleBalance);
 
         // the assertion of linear interest is constant (that is the initial amount of growth after an hour and the growth after a second hour are constant) like this
         assertApproxEqAbs(endBalance - middleBalance, middleBalance - startBalance, 1);
+        vm.stopPrank();
+    }
+
+    function testRedeemStraightAway(uint256 amount) public {
+        amount = bound(amount, 1e5, type(uint96).max);
+        // deposit into the vault
+        vm.startPrank(USER);
+        vm.deal(USER, amount);
+        vault.deposit{value: amount}();
+        uint256 userBalance = rebaseToken.balanceOf(USER);
+        assertEq(userBalance, amount);
+
+        // redeem token
+        vault.redeem(type(uint256).max);
+        uint256 userBalanceAfterRedeem = rebaseToken.balanceOf(USER);
+        uint256 totalUserBalance = address(USER).balance;
+
+        assertEq(userBalanceAfterRedeem, 0);
+        assertEq(totalUserBalance, amount);
         vm.stopPrank();
     }
 }

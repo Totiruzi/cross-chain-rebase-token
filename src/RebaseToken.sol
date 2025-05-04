@@ -101,10 +101,6 @@ contract RebaseToken is ERC20, Ownable, AccessControl {
      * @param _amount The Amount of tokens to mint
      */
     function burn(address _from, uint256 _amount) external onlyRole(MINT_AND_BURN_ROLE) {
-        // to mitigate against dust (User wanting to withdraw their entire staked amount)
-        if (_amount == type(uint256).max) {
-            _amount = balanceOf(_from);
-        }
         _mintAccruedInterest(_from);
         _burn(_from, _amount);
     }

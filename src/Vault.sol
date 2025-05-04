@@ -67,6 +67,10 @@ contract Vault {
      * @param _amount The amount of Rebase Token to redeem 
      */
     function redeem(uint256 _amount) external {
+        // to mitigate against dust (User wanting to withdraw their entire staked amount)
+        if (_amount == type(uint256).max) {
+            _amount = i_rebaseToken.balanceOf(msg.sender);
+        }
         // 1. Burn the token from the user
         i_rebaseToken.burn(msg.sender, _amount);
 
